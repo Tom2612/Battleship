@@ -1,4 +1,5 @@
-const Ship = require('./shipFactory');
+const Ship = require('./ship');
+const checkLocation = require('./helper');
 
 const gameboard = () => {
     let board = [];
@@ -10,6 +11,9 @@ const gameboard = () => {
     }
     const placeShip = (location, length, name) => {
         makeBoard();
+        if(checkLocation(location, length)) {
+            //move placement code into here!
+        }
         if(location + length - 2 < board.length){
             const ship = Ship(name, length);
             for (let j = location - 1; j < location + length - 1; j++) {

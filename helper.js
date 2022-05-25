@@ -11,13 +11,14 @@ function checkLocation(location, length) {
     let a = array[0];
     let b = array[array.length - 1];
     console.log(a.toString().split(''), b.toString().split(''));
-    if(b > 10) {
-        if(a.toString().split('')[0] !== b.toString().split('')[0]) {
-            if(b.toString().split('')[1] !== 0){
+    if (a % 10 === 0 || a.toString().split('')[0] === b.toString().split('')[0]) {
+        return true;
+    }
+    if (b > 10) {
+        if(a.toString().split('')[0] !== b.toString().split('')[0] && b.toString().split('')[1] !== 0) {
                 return false;
-            }
         }
-    } else return true;
+    }
 }
     // split the number here and check the first digit of first number is same as first digit of last?
     // if ((location + length) % 10 !== 0) {

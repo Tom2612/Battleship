@@ -1,40 +1,25 @@
 function checkLocation(location, length) {
     let i = location;
     let array = [];
-    let result;
     while(array.length < length) {
         array.push(i);
         i++;
     }
-    console.log(array);
-
-    let a = array[0];
-    let b = array[array.length - 1];
-    console.log(a.toString().split(''), b.toString().split(''));
-    if (a % 10 === 0 || a.toString().split('')[0] === b.toString().split('')[0]) {
+    let a = array[0].toString().split('');
+    let b = array[array.length - 1].toString().split('');
+    if (a % 10 === 0 || a[0] === b[0]) {
         return true;
     }
-    if (b > 10) {
-        if(a.toString().split('')[0] !== b.toString().split('')[0] && b.toString().split('')[1] !== 0) {
-                return false;
-        }
+    if (b.length === 1) {
+        return true;
+    } 
+    if(location + length > 101) {
+        return false
     }
+    if (b[1] !== '0') {
+        return false;
+    }
+    return true;
 }
-    // split the number here and check the first digit of first number is same as first digit of last?
-    // if ((location + length) % 10 !== 0) {
-    //     for (let i = 0; i < array.length; i++) { 
-    //         let number = array[i];
-    //         let nextNumber = array[i+1];
-    //         console.log(number, nextNumber)  
-    //         if(array[i] % 10 === 0){
-    //             if (nextNumber){
-    //                 result = false
-    //             } else {
-    //                 result = true;
-    //             } 
-    //         }
-    //     }
-    //     return result;
-    // } else return true;
-    
-// }
+
+module.exports = checkLocation;

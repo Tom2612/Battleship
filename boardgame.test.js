@@ -24,6 +24,20 @@ test('hit and sink real ship', () => {
     returnValue.hit(1)
     expect(returnValue.isSunk()).toBe(true);
 })
+test('hit and sink real ship at different locations', () => {
+    const ship = Ship('sub', 3);
+    const returnValue = gameboard().placeShip(2, 2, ship.getName())[1];
+    returnValue.hit(1)
+    returnValue.hit(2)
+    expect(returnValue.isSunk()).toBe(true);
+})
+test('hit and but dont sink real ship at different locations', () => {
+    const ship = Ship('sub', 3);
+    const returnValue = gameboard().placeShip(2, 3, ship.getName())[1];
+    returnValue.hit(1)
+    returnValue.hit(2)
+    expect(returnValue.isSunk()).toBe(false);
+})
 
 test('hit real ship and hit', () => {
     const ship = Ship('sub', 3);

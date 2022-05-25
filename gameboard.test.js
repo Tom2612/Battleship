@@ -1,5 +1,5 @@
 const gameboard = require('./gameboard');
-const Ship = require('./shipFactory');
+const Ship = require('./ship');
 
 test('gameboard function working', () => {
     expect(gameboard().makeBoard()).toStrictEqual([1,2,3,4,5,6,7,8,9,10])

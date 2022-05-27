@@ -3,14 +3,13 @@ const checkLocation = require('./helper');
 
 const gameboard = () => {
     let board = [];
-    const makeBoard = () => {
-        for (let i = 1; i < 11; i++) {
+    const makeBoard = (boardLength) => {
+        for (let i = 1; i < boardLength; i++) {
             board.push(i);
         }
         return board;
     }
     const placeShip = (location, length, name) => {
-        makeBoard();
         if(checkLocation(location, length)) {
             //move placement code into here!
         }

@@ -30,7 +30,6 @@ function checkLocation(location, length, horizontal) {
         }
         return (location + (length * 10) > 100 ? false : true);
     }
-    
-}
+};
 
 module.exports = checkLocation;

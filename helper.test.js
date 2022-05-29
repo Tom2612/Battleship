@@ -1,4 +1,5 @@
 const checkLocation = require('./helper');
+const checkOccupied = require('./checkvalid');
 
 test('check location test (1)', () => {
     expect(checkLocation(23, 3, true)).toBe(true)
@@ -62,4 +63,14 @@ test('vertical recognised success carrier (2)', () => {
 })
 test('vertical recognised Fail carrier', () => {
     expect(checkLocation(51, 5, false)).toStrictEqual(false);
+})
+
+//CheckOccupied tests
+test('horizontal occupation test1', () => {
+    let board = [1, 2, 'sub','sub','sub',6,7,8];
+    expect(checkOccupied(5, 3, true, board)).toBe(false);
+})
+test('horizontal occupation test1', () => {
+    let board = [1, 2,3,4,5,'sub','sub',8];
+    expect(checkOccupied(5, 3, true, board)).toBe(false);
 })

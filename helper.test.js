@@ -70,7 +70,31 @@ test('horizontal occupation test1', () => {
     let board = [1, 2, 'sub','sub','sub',6,7,8];
     expect(checkOccupied(5, 3, true, board)).toBe(false);
 })
-test('horizontal occupation test1', () => {
+test('horizontal occupation test2', () => {
     let board = [1, 2,3,4,5,'sub','sub',8];
     expect(checkOccupied(5, 3, true, board)).toBe(false);
+})
+test('horizontal occupation test3', () => {
+    let board = [1, 2,3,4,5,6,'sub',8];
+    expect(checkOccupied(5, 3, true, board)).toBe(false);
+})
+test('horizontal occupation test4', () => {
+    let board = [1, 2,3,4,5,6,'sub',8];
+    expect(checkOccupied(4, 3, true, board)).toBe(true);
+})
+test('vertical occupation test1', () => {
+    let board = [1, 2,3,4,5,6,7,8,9,10,'sub',12];
+    expect(checkOccupied(1, 2, false, board)).toBe(false);
+})
+test('vertical occupation test2', () => {
+    let board = [1, 2,3,4,5,6,7,8,9,10,'sub',12];
+    expect(checkOccupied(2, 2, false, board)).toBe(true);
+})
+test('vertical occupation test3', () => {
+    let board = ['sub', 2,3,4,5,6,7,8,9,10,'sub',12];
+    expect(checkOccupied(2, 2, false, board)).toBe(true);
+})
+test('vertical occupation test4', () => {
+    let board = ['sub', 2,3,4,5,6,7,8,9,10,'sub',12];
+    expect(checkOccupied(1, 2, false, board)).toBe(false);
 })

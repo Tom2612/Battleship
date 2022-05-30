@@ -1,20 +1,26 @@
 const Ship = require('./ship');
 const checkLocation = require('./helper');
+const checkOccupied = require('./checkvalid');
 let board = [];
 
 const gameboard = () => {
+    
     const makeBoard = (boardLength) => {
+        board = [];
         for (let i = 1; i < boardLength; i++) {
             board.push(i);
         }
         return board;
     }
+    const getBoard = () => {return board};
 
     const placeShip = (location, length, name, direction) => {
         if (!checkLocation(location, length, direction)) {
             return false;
         }
-        //Need another checker here to see if the board space/s are taken
+        if (!checkOccupied(location, length, direction, board=getBoard())) {
+            return false;
+        }
         const ship = Ship(name, length);
         if (direction) {
             //Horizontal
@@ -34,7 +40,7 @@ const gameboard = () => {
 
     }
 
-    return { makeBoard, placeShip };
+    return { makeBoard, placeShip, getBoard };
 }
 
 module.exports = gameboard;

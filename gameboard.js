@@ -2,9 +2,9 @@ const Ship = require('./ship');
 const checkLocation = require('./helper');
 const checkOccupied = require('./checkvalid');
 let board = [];
+let previousHits = [];
 
 const gameboard = () => {
-    
     const makeBoard = (boardLength) => {
         board = [];
         for (let i = 1; i < boardLength; i++) {
@@ -12,6 +12,7 @@ const gameboard = () => {
         }
         return board;
     }
+    
     const getBoard = () => {return board};
 
     const placeShip = (location, length, name, direction) => {
@@ -37,12 +38,21 @@ const gameboard = () => {
         } else return false;
     }
     const receiveAttack = (location) => {
-        if (location) {
-            return true
-        } else return false;
+        // if (previousHits.includes(location)) { return true };
+
+        previousHits.push(location);
+        console.log('previousHits: ', previousHits)
+        
+        if (typeof board[location - 1] !== 'number') {
+            let boat = board[location - 1];
+            console.log('boat', boat)
+            let value = boat.hit(location);
+            console.log('value', value)
+            return value;
+        }
     }
 
-    return { makeBoard, placeShip, getBoard };
+    return { makeBoard, placeShip, getBoard, receiveAttack };
 }
 
 module.exports = gameboard;

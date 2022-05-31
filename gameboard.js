@@ -37,7 +37,9 @@ const gameboard = () => {
         } else return false;
     }
     const receiveAttack = (location) => {
-
+        if (location) {
+            return true
+        } else return false;
     }
 
     return { makeBoard, placeShip, getBoard };

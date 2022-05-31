@@ -98,3 +98,9 @@ test('2 boats hit and sink 1', () => {
 })
 
 //ReceiveAttack function tests
+test('hit boat 1', () => {
+    gameboard().makeBoard(101);
+    gameboard().placeShip(1, 2, 'patrol boat', false);
+    const boat = gameboard().getBoard()[0];
+    expect(gameboard().receiveAttack(1)).toBe(true);
+})

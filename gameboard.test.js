@@ -107,9 +107,17 @@ test('hit boat 1', () => {
 })
 test('hit boat 2', () => {
     gameboard().makeBoard(101);
-    gameboard().placeShip(1, 2, 'patrol boat', false);
+    gameboard().placeShip(1, 2, 'patrol boat', true);   
     const boat = gameboard().getBoard()[0];
     expect(gameboard().receiveAttack(1)).toStrictEqual([1]);
     expect(gameboard().receiveAttack(2)).toStrictEqual([1, 2]);
     expect(boat.isSunk()).toBe(true);
+})
+test('same-space hit', () => {
+    gameboard().makeBoard(11);
+    gameboard().placeShip(1, 2, 'patrol boat', true);
+    const boat = gameboard().getBoard()[0];
+    expect(gameboard().receiveAttack(1)).toStrictEqual([1]);
+    expect(gameboard().receiveAttack(1)).toBe(false);
+    expect(boat.isSunk()).toBe(false);
 })

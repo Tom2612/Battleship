@@ -38,17 +38,14 @@ const gameboard = () => {
         } else return false;
     }
     const receiveAttack = (location) => {
-        // if (previousHits.includes(location)) { return true };
-
-        previousHits.push(location);
-        console.log('previousHits: ', previousHits)
-        
+        if(previousHits.includes(location)) {
+            return false
+        } else {
+            previousHits.push(location);
+        }
         if (typeof board[location - 1] !== 'number') {
-            let boat = board[location - 1];
-            console.log('boat', boat)
-            let value = boat.hit(location);
-            console.log('value', value)
-            return value;
+            return board[location - 1].hit(location);
+
         }
     }
 

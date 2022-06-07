@@ -3,9 +3,12 @@ const Ship = (name, length) => {
     const getName = () => name;
     const getLength = () => length;
     const hit = (location) => {
-        if(!location) return hits
-        hits.push(location);
-        return hits;
+        if(!location) { 
+            return hits
+        }else{
+            hits.push(location);
+            return hits;
+        }
     }
     const isSunk = () => {
         if (hits.length === length) {

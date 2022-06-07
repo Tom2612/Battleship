@@ -38,15 +38,26 @@ const gameboard = () => {
         } else return false;
     }
     const receiveAttack = (location) => {
-        if(previousHits.includes(location)) {
-            return false
+        // if(board[location - 1].hit().includes(location)) {
+        //     return false;
+        // } else if (typeof board[location - 1] !== 'number') {
+        //     return board[location - 1].hit(location);
+        // } else if (typeof board[location - 1] === 'number') {
+        //     previousHits.push(location);
+        //     return previousHits;
+        // }
+
+        //V2 - check type first, then for previous hits
+        if(typeof board[location - 1] === 'number' && previousHits.includes(location)) {
+            return false;
+        } else if (typeof board[location - 1] !== 'number' && board[location - 1].hit().includes(location)) {
+            return false;
+        } else if (typeof board[location - 1] !== 'number' && !board[location - 1].hit().includes(location)) {
+            return board[location - 1].hit(location);
         } else {
             previousHits.push(location);
-        }
-        if (typeof board[location - 1] !== 'number') {
-            return board[location - 1].hit(location);
-
-        }
+            return previousHits;
+        }   
     }
 
     return { makeBoard, placeShip, getBoard, receiveAttack };

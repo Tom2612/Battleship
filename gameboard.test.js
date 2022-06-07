@@ -127,3 +127,14 @@ test('same-space non-boat-hit', () => {
     expect(gameboard().receiveAttack(3)).toStrictEqual([3]);
     expect(gameboard().receiveAttack(3)).toBe(false);
 })
+test('gameover, all sunk', () => {
+    gameboard().makeBoard(101);
+    gameboard().placeShip(1, 2, 'patrol boat', true);
+    gameboard().placeShip(9, 3, 'submarine', false);
+    gameboard().receiveAttack(1);
+    gameboard().receiveAttack(9);
+    gameboard().receiveAttack(2);
+    gameboard().receiveAttack(19);
+    gameboard().receiveAttack(29);
+    expect(gameboard().checkAllSunk).toBe(true);
+})

@@ -59,8 +59,15 @@ const gameboard = () => {
             return previousHits;
         }   
     }
+    const getHits = () => {
+        return previousHits;
+    }
 
-    return { makeBoard, placeShip, getBoard, receiveAttack };
+    const checkAllSunk = () => {
+
+    }
+
+    return { makeBoard, placeShip, getBoard, receiveAttack, getHits, checkAllSunk };
 }
 
 module.exports = gameboard;

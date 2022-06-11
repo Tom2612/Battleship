@@ -64,7 +64,14 @@ const gameboard = () => {
     }
 
     const checkAllSunk = () => {
-
+        const allShips = board.filter(a => typeof a !== 'number');
+        let array = [];
+        for (let ship of allShips) {
+            array.push(ship.isSunk());
+        }
+        if(array.includes(false)) {
+            return false;
+        } else return true;
     }
 
     return { makeBoard, placeShip, getBoard, receiveAttack, getHits, checkAllSunk };

@@ -138,3 +138,13 @@ test('gameover, all sunk', () => {
     gameboard().receiveAttack(29);
     expect(gameboard().checkAllSunk).toBe(true);
 })
+test('not gameover, some sunk', () => {
+    gameboard().makeBoard(101);
+    gameboard().placeShip(1, 2, 'patrol boat', true);
+    gameboard().placeShip(9, 3, 'submarine', false);
+    gameboard().receiveAttack(1);
+    gameboard().receiveAttack(9);
+    gameboard().receiveAttack(2);
+    gameboard().receiveAttack(19);
+    expect(gameboard().checkAllSunk()).toBe(false);
+})

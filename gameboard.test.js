@@ -1,150 +1,71 @@
-const gameboard = require('./gameboard');
+const gameboard = require('./gameboard2');
 const Ship = require('./ship');
 
 test('gameboard function working', () => {
     expect(gameboard().makeBoard(11)).toStrictEqual([1,2,3,4,5,6,7,8,9,10])
 })
 
-test('place real ship and get name', () => {
-    gameboard().makeBoard(11);
-    const ship = Ship('sub', 3);
-    const returnValue = gameboard().placeShip(2, 3, ship.getName(), true)[1];
-    expect(returnValue.getName()).toBe('sub')
+const playerBoard = gameboard();
+playerBoard.makeBoard(101);
+playerBoard.placeShip(1, 5, 'Carrier', true);
+playerBoard.placeShip(12, 4, 'Battleship', false);
+playerBoard.placeShip(36, 3, 'Destroyer', false);
+playerBoard.placeShip(65, 3, 'Submarine', false);
+const currentState = playerBoard.placeShip(88, 2, 'Patrol Boat', true);
+playerBoard.receiveAttack(27)
+playerBoard.receiveAttack(1)
+playerBoard.receiveAttack(2)
+playerBoard.receiveAttack(3)
+playerBoard.receiveAttack(4)
+playerBoard.receiveAttack(5)
+playerBoard.receiveAttack(12)
+playerBoard.receiveAttack(22)
+playerBoard.receiveAttack(32)
+playerBoard.receiveAttack(42)
+playerBoard.receiveAttack(46)
+playerBoard.receiveAttack(56)
+playerBoard.receiveAttack(65)
+playerBoard.receiveAttack(76)
+playerBoard.receiveAttack(85)
+playerBoard.receiveAttack(88)
+playerBoard.receiveAttack(36)
+playerBoard.receiveAttack(75)
+playerBoard.receiveAttack(88)
+playerBoard.receiveAttack(89)
+
+test('get board', () => {
+    expect(currentState[64].getName()).toBe('Submarine');
+})
+test('get board', () => {
+    console.log(currentState)
+    expect(currentState[87].getName()).toBe('Patrol Boat');
+    expect(currentState[88].getName()).toBe('Patrol Boat');
+    expect(currentState[88].hit()).toStrictEqual([88,89]);
 })
 
-test('hit but don\'t sink real ship', () => {
-    gameboard().makeBoard(11);
-    const ship = Ship('sub', 3);
-    gameboard().placeShip(2, 3, ship.getName(), true)
-    const returnValue = gameboard().getBoard()[1];
-    returnValue.hit(1)
-    expect(returnValue.isSunk()).toBe(false);
+test('nothing sunk', () => {
+    expect(playerBoard.checkAllSunk()).toBe(true);
 })
 
-test('hit and sink real ship', () => {
-    gameboard().makeBoard(11);
-    gameboard().placeShip(2, 1, 'boat', true)
-    const returnValue = gameboard().getBoard()[1];
-    returnValue.hit(1)
-    expect(returnValue.isSunk()).toBe(true);
-})
-test('hit and sink real ship at different locations', () => {
-    gameboard().makeBoard(11);
-    gameboard().placeShip(2, 2, 'boat2', true);
-    const returnValue = gameboard().getBoard()[1];
-    returnValue.hit(1)
-    returnValue.hit(2)
-    expect(returnValue.isSunk()).toBe(true);
-})
-test('hit and but dont sink real ship at different locations', () => {
-    gameboard().makeBoard(11);
-    const ship = Ship('sub', 3);
-    const returnValue = gameboard().placeShip(2, 3, ship.getName(), true)[1];
-    returnValue.hit(1)
-    returnValue.hit(2)
-    expect(returnValue.isSunk()).toBe(false);
+test('1 down!', () => {
+    expect(playerBoard.getHits()).toStrictEqual([27,1,2,3,4,5,12,22,32,42,46,56,65,76,85,88,36,75,89])
+    expect(playerBoard.checkAllSunk()).toBe(true)
+    expect(currentState[1].isSunk()).toBe(true)
+    expect(currentState[11].isSunk()).toBe(true)
+    expect(currentState[35].isSunk()).toBe(true)
+    expect(currentState[35].hit()).toStrictEqual([46,56, 36])
+    expect(currentState[64].isSunk()).toBe(true)
+    expect(currentState[87].isSunk()).toBe(true)
 })
 
-test('hit real ship and hit', () => {
-    gameboard().makeBoard(11);
-    const ship = Ship('sub', 3);
-    const returnValue = gameboard().placeShip(2, 3, ship.getName(), true)[1];
-    expect(returnValue.hit(1)).toStrictEqual([1])
+test('repeat attack', () => {
+    expect(playerBoard.receiveAttack(4)).toBe(false);
+    expect(playerBoard.receiveAttack(46)).toBe(false);
 })
 
-test('invalid position', () => {
-    gameboard().makeBoard(11);
-    expect(gameboard().placeShip(7,5,'carrier', true)).toBe(false);
+test('ship positioning horizontal test', () => {
+    expect(playerBoard.placeShip(86, 3, 'newBoat', true)).toBe(false)
 })
-
-//Start real placement tests vert + hor here
-
-test('horizontal placement test pass', () => {
-    gameboard().makeBoard(21);
-    const ship = Ship('carrier', 5);
-    const returnValue = gameboard().placeShip(11, 5, ship.getName(), true)[11];
-    expect(returnValue.getName()).toBe('carrier');
-})
- 
-test('horizontal placement test fail', () => {
-    gameboard().makeBoard(21);
-    const ship = Ship('carrier', 5);
-    expect(gameboard().placeShip(17, 5, ship.getName(), true)).toBe(false);
-})
-test('vertical placement test pass', () => {
-    gameboard().makeBoard(21);
-    const ship = Ship('patrol boat', 2);
-    const returnValue = gameboard().placeShip(6, 2, ship.getName(), false)[15];
-    const returnValue2 = gameboard().getBoard()[5];
-    expect(returnValue.getName()).toBe('patrol boat');
-    expect(returnValue2.getName()).toBe('patrol boat');
-})
-test('vertical placement test fail', () => {
-    gameboard().makeBoard(101);
-    const ship = Ship('patrol boat', 2);
-    const returnValue = gameboard().placeShip(96, 2, ship.getName(), false);
-    expect(returnValue).toBe(false);
-})
-test('2 boats hit and sink 1', () => {
-    gameboard().makeBoard(101);
-    gameboard().placeShip(1, 2, 'patrol boat', false);
-    gameboard().placeShip(3, 3, 'submarine', true);
-    const boat = gameboard().getBoard()[0];
-    const boat2 = gameboard().getBoard()[2];
-    boat.hit(1);
-    boat.hit(11);
-    expect(boat.isSunk()).toBe(true);
-    expect(boat2.isSunk()).toBe(false);
-})
-
-//ReceiveAttack function tests
-test('hit boat 1', () => {
-    gameboard().makeBoard(101);
-    gameboard().placeShip(1, 2, 'patrol boat', false);
-    const boat = gameboard().getBoard()[0];
-    expect(gameboard().receiveAttack(1)).toStrictEqual([1]);
-    expect(boat.isSunk()).toBe(false);
-})
-test('hit boat 2', () => {
-    gameboard().makeBoard(101);
-    gameboard().placeShip(1, 2, 'patrol boat', true);   
-    const boat = gameboard().getBoard()[0];
-    expect(gameboard().receiveAttack(1)).toStrictEqual([1]);
-    expect(gameboard().receiveAttack(2)).toStrictEqual([1, 2]);
-    expect(boat.isSunk()).toBe(true);
-})
-test('same-space boat-hit', () => {
-    gameboard().makeBoard(11);
-    gameboard().placeShip(1, 2, 'patrol boat', true);
-    const boat = gameboard().getBoard()[0];
-    expect(gameboard().receiveAttack(1)).toStrictEqual([1]);
-    expect(gameboard().receiveAttack(1)).toBe(false);
-    expect(boat.isSunk()).toBe(false);
-})
-test('same-space non-boat-hit', () => {
-    gameboard().makeBoard(11);
-    gameboard().placeShip(1, 2, 'patrol boat', true);
-    expect(gameboard().receiveAttack(3)).toStrictEqual([3]);
-    expect(gameboard().receiveAttack(3)).toBe(false);
-})
-test('gameover, all sunk', () => {
-    gameboard().makeBoard(101);
-    gameboard().placeShip(1, 2, 'patrol boat', true);
-    gameboard().placeShip(9, 3, 'submarine', false);
-    gameboard().receiveAttack(1);
-    gameboard().receiveAttack(9);
-    gameboard().receiveAttack(2);
-    gameboard().receiveAttack(19);
-    gameboard().receiveAttack(29);
-    expect(gameboard().checkAllSunk).toBe(true);
-})
-test('not gameover, some sunk', () => {
-    gameboard().makeBoard(101);
-    gameboard().placeShip(1, 2, 'patrol boat', true);
-    gameboard().placeShip(9, 3, 'submarine', false);
-    gameboard().receiveAttack(1);
-    gameboard().receiveAttack(9);
-    gameboard().receiveAttack(2);
-    gameboard().receiveAttack(19);
-    expect(gameboard().checkAllSunk()).toBe(false);
+test('ship positioning vertical test', () => {
+    expect(playerBoard.placeShip(78, 3, 'newerBoat', false)).toBe(false)
 })

@@ -5,21 +5,21 @@ let board = [];
 let previousHits = [];
 
 const gameboard = () => {
-    const makeBoard = (boardLength) => {
-        board = [];
-        for (let i = 1; i < boardLength; i++) {
+    let board = [];
+    let previousHits = [];
+
+    const makeBoard = (length) => {
+        for (let i = 1; i < length; i++) {
             board.push(i);
         }
         return board;
     }
-    
-    const getBoard = () => {return board};
 
     const placeShip = (location, length, name, direction) => {
-        if (!checkLocation(location, length, direction)) {
+         if (!checkLocation(location, length, direction)) {
             return false;
         }
-        if (!checkOccupied(location, length, direction, board=getBoard())) {
+        if (!checkOccupied(location, length, direction, board=board)) {
             return false;
         }
         const ship = Ship(name, length);
@@ -37,28 +37,20 @@ const gameboard = () => {
             return board;
         } else return false;
     }
-    const receiveAttack = (location) => {
-        // if(board[location - 1].hit().includes(location)) {
-        //     return false;
-        // } else if (typeof board[location - 1] !== 'number') {
-        //     return board[location - 1].hit(location);
-        // } else if (typeof board[location - 1] === 'number') {
-        //     previousHits.push(location);
-        //     return previousHits;
-        // }
 
-        //V2 - check type first, then for previous hits
-        if(typeof board[location - 1] === 'number' && previousHits.includes(location)) {
+    const receiveAttack = (location) => {
+        if (previousHits.includes(location)) {
             return false;
-        } else if (typeof board[location - 1] !== 'number' && board[location - 1].hit().includes(location)) {
-            return false;
-        } else if (typeof board[location - 1] !== 'number' && !board[location - 1].hit().includes(location)) {
-            return board[location - 1].hit(location);
+        } else if (typeof board[location - 1] !== 'number' && !previousHits.includes(location)) {
+            board[location - 1].hit(location)
+            previousHits.push(location);
+            return true;
         } else {
             previousHits.push(location);
-            return previousHits;
-        }   
+            return true;
+        }
     }
+
     const getHits = () => {
         return previousHits;
     }
@@ -74,7 +66,7 @@ const gameboard = () => {
         } else return true;
     }
 
-    return { makeBoard, placeShip, getBoard, receiveAttack, getHits, checkAllSunk };
+    return { makeBoard, placeShip, receiveAttack, getHits, checkAllSunk}
 }
 
 module.exports = gameboard;

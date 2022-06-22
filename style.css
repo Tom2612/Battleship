@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+main {
+    display: flex;
+}
+.grid {
+    padding: 2px;
+    width: 500px;
+    height: 500px;
+    border: 1px solid black;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    grid-gap: 2px;
+    background-color:  aqua;
+}
+.square {
+    width:100%;
+    border: 1px solid blue;
+    border-radius: 5px;
+    background-color: rgb(224, 240, 255);
+}
+.computer .square:hover{
+    background-color: blue;
+}
+.hit {
+    background-color: red;
+}
+.miss {
+    background-color: darkblue;
+}
+.player-ship {
+    background-color: green;
+}

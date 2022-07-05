@@ -26,12 +26,6 @@ main {
 .computer .square:hover{
     background-color: blue;
 }
-.hit {
-    background-color: red;
-}
-.miss {
-    background-color: darkblue;
-}
 .player-ship {
     background-color: green;
 }

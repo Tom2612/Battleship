@@ -9,7 +9,15 @@ function checkLocation(location, length, horizontal) {
         }
         let a = array[0].toString().split('');
         let b = array[array.length - 1].toString().split('');
-        if (a % 10 === 0 || a[0] === b[0]) {
+        for (let i = 0; i <= length - 2; i++) {
+            //Add more conditions here!
+            if (array[i] % 10 === 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        if (a[1] === 0 || a[0] === b[0]) {
             return true;
         }
         if (b.length === 1) {
@@ -28,8 +36,10 @@ function checkLocation(location, length, horizontal) {
             array.push(i);
             i += 10;
         }
-        return (location + (length * 10) > 100 ? false : true);
+        return (location + (length - 1 * 10) > 100 ? false : true);
     }
 };
 
-module.exports = checkLocation;
+// module.exports = checkLocation;
+
+export default checkLocation

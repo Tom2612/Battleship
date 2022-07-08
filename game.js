@@ -6,29 +6,31 @@ import Ship from './ship.js';
 import Gameboard from './gameboard.js';
 import Player from './player.js'
 
-const playerGrid = document.querySelector('.player');
-const computerGrid = document.querySelector('.computer');
-
 const boats = {
     1: {
         name: 'Carrier', 
-        length: 5
+        length: 5,
+        placed: false
     },
     2: {
         name: 'Battleship', 
-        length: 4
+        length: 4,
+        placed: false
     },
     3: {
         name: 'Destroyer', 
-        length: 3
+        length: 3,
+        placed: false
     },
     4: {
         name: 'Submarine', 
-        length: 3
+        length: 3,
+        placed: false
     },
     5: {
         name: 'Patrol Boat', 
-        length: 2
+        length: 2,
+        placed: false
     }
 }
 
@@ -42,68 +44,61 @@ const Game = () => {
     playerGameboard.makeBoard(101);
     computerGameboard.makeBoard(101);
 
+    const computerSetup = () => {
+        for (let boat in boats) {
+            let randomOrientation = (Math.floor(Math.random() * 2));
+            let orientation;
+            if (randomOrientation === 1) {
+                orientation = true;
+            } else orientation = false;
+            while (boats[boat].placed == false) {
+                if(computerGameboard.placeShip((Math.floor(Math.random() * 100) + 1), boats[boat].length, boats[boat].name, orientation)) {
+                    boats[boat].placed = true;
+                }
+            }
+        }
+    }
+    // computerSetup()
+
+    const playerSetUp = () => {
+
+    }
+    
     //Hard-coded locations for now
     playerGameboard.placeShip(1, boats[1].length, boats[1].name, true);
     playerGameboard.placeShip(10, boats[2].length, boats[2].name, false);
     playerGameboard.placeShip(71, boats[3].length, boats[3].name, false);
     playerGameboard.placeShip(54, boats[4].length, boats[4].name, true);
     playerGameboard.placeShip(89, boats[5].length, boats[5].name, false);
+    computerGameboard.placeShip(60, boats[1].length, boats[1].name, true);
+    computerGameboard.placeShip(70, boats[1].length, boats[1].name, true);
+    computerGameboard.placeShip(79, boats[2].length, boats[2].name, true);
+    console.log(computerGameboard.getBoard())
 
-    computerGameboard.placeShip(1, boats[1].length, boats[1].name, false);
-    computerGameboard.placeShip(7, boats[2].length, boats[2].name, true);
-    computerGameboard.placeShip(91, boats[3].length, boats[3].name, true);
-    computerGameboard.placeShip(34, boats[4].length, boats[4].name, false);
-    computerGameboard.placeShip(98, boats[5].length, boats[5].name, true);
-
-    playerGameboard.receiveAttack(1)
-    playerGameboard.receiveAttack(2)
-    playerGameboard.receiveAttack(3)
-    playerGameboard.receiveAttack(4)
-    playerGameboard.receiveAttack(5)
-    playerGameboard.receiveAttack(6)
-    playerGameboard.receiveAttack(7)
-    playerGameboard.receiveAttack(56)
-    playerGameboard.receiveAttack(57)
-
-    // const playRound = (board, location) => {
-    //     if (!board.checkAllSunk()) {
-    //         board.receiveAttack(location);
-    //         computerPlayer.randomLocation(playerGameboard);
-    //     } else {
-    //         gameOver();
-    //     }
-    // }
-
-    const playRoundNew = (location) => {
-        computerGameboard.receiveAttack(location);
-        let result = computerGameboard.checkAllSunk();
-        if (result) {
-            gameOver('Player');
+    const playRound = (location) => {
+        if (!computerGameboard.receiveAttack(location)) {
+            return;
         }
-        //For now, computer matches player.
-        playerGameboard.receiveAttack(location);
-        let computerResult = playerGameboard.checkAllSunk();
-        if (computerResult) {
-            gameOver('Computer');
-        }
+        playerGameboard.receiveAttack(computerPlayer.randomLocation());
         return;
     }
 
-    const gameOver = () => {
-
+    const checkGameOver = () => {
+        if (computerGameboard.checkAllSunk()) {
+            return 'Player';
+        } else if (playerGameboard.checkAllSunk()) {
+            return 'Computer';
+        } else return;
     }
 
     return {
         playerGameboard,
         computerGameboard,
-        playRoundNew,
+        playRound,
         getPlayerBoard: playerGameboard.getBoard,
-        getComputerBoard: computerGameboard.getBoard
+        getComputerBoard: computerGameboard.getBoard,
+        checkGameOver
     }
 }
-
-let game = Game();
-console.log(game.getPlayerBoard())
-console.log(game.getComputerBoard())
 
 export default Game;

@@ -1,8 +1,4 @@
 import Game from './game.js';
-const playerGrid = document.querySelector('.player');
-const computerGrid = document.querySelector('.computer');
-
-// const game = Game();
 
 const screenController = () => {
     const game = Game();
@@ -31,7 +27,6 @@ const screenController = () => {
         createSquares(computerGrid);
 
         const playerBoard = game.getPlayerBoard();
-        const computerBoard = game.getComputerBoard();
         const playerSquares = document.querySelectorAll('.player-square');
         const computerSquares = document.querySelectorAll('.computer-square');
 
@@ -61,18 +56,24 @@ const screenController = () => {
             computerSquares[miss - 1].style.backgroundColor = 'darkblue';
         }
     }
-    const clickHandler = () => {
 
+    const clickHandler = (e) => {
+        game.playRound(e.target.id);
+        updateScreen();
+        if (game.checkGameOver() === 'Player') {
+            endgame('Player');
+        } else if (game.checkGameOver() === 'Computer') {
+            endgame('Computer');
+        }
     }
+
+    const endgame = (winner) => {
+        computerGrid.removeEventListener('click', clickHandler);
+        alert(`${winner} has won the game!`);
+    }
+
+    computerGrid.addEventListener('click', clickHandler);
     updateScreen();
 }
 
 screenController();
-
-// squares.forEach(square => {
-//     square.addEventListener('click', (e) => {
-//         Game().computerGameboard.receiveAttack(e.target.id);
-//         // console.log(Game().computerGameboard.getHits())
-    
-//     })
-// });

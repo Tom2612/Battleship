@@ -4,6 +4,37 @@ const screenController = () => {
     const game = Game();
     const playerGrid = document.querySelector('.player');
     const computerGrid = document.querySelector('.computer');
+    const orientationBtn = document.querySelector('#orientation');
+    const setMessage = document.querySelector('#set-message');
+    let orientation = true;
+
+    const orientationBtnHandler = () => {
+        if (orientationBtn.textContent === 'Go vertical') {
+            orientationBtn.textContent = 'Go horizontal';
+            orientation = false;
+        } else {
+            orientationBtn.textContent = 'Go vertical';
+            orientation = true;
+        }
+        return orientation;
+    }
+
+    let counter = 1;
+    const playerLocationSet = (e) => {
+        if (game.playerSetUp(e.target.id, orientation, counter)) {
+            counter += 1;
+            setMessage.textContent = 'Good';
+            updateScreen();
+        } else {
+            setMessage.textContent = 'Bad';
+        }
+    }
+
+    playerGrid.addEventListener('click', playerLocationSet);
+    if (counter == 6) {
+        playerGrid.removeEventListener('click', playerLocationSet);
+        setMessage.textContent = 'All set, play Battleships!';
+    }
 
     const updateScreen = () => {
         playerGrid.innerHTML = '';
@@ -72,6 +103,7 @@ const screenController = () => {
         alert(`${winner} has won the game!`);
     }
 
+    orientationBtn.addEventListener('click', orientationBtnHandler);
     computerGrid.addEventListener('click', clickHandler);
     updateScreen();
 }

@@ -6,7 +6,36 @@ import Ship from './ship.js';
 import Gameboard from './gameboard.js';
 import Player from './player.js'
 
+//Temporarily make a copy of boats object for computer/player version?
 const boats = {
+    1: {
+        name: 'Carrier', 
+        length: 5,
+        placed: false
+    },
+    2: {
+        name: 'Battleship', 
+        length: 4,
+        placed: false
+    },
+    3: {
+        name: 'Destroyer', 
+        length: 3,
+        placed: false
+    },
+    4: {
+        name: 'Submarine', 
+        length: 3,
+        placed: false
+    },
+    5: {
+        name: 'Patrol Boat', 
+        length: 2,
+        placed: false
+    }
+}
+
+const playerBoats = {
     1: {
         name: 'Carrier', 
         length: 5,
@@ -60,16 +89,31 @@ const Game = () => {
     }
     computerSetup()
 
-    const playerSetUp = () => {
+    const checkPlayerSetUp = () => {
+        for (let boat in playerBoats) {
+            while (boat.placed === false) {
+                return false;
+            }
+        }
+    }
 
+    const playerSetUp = (location, orientation, counter) => {
+        if(!playerGameboard.placeShip(parseInt(location), playerBoats[counter].length, playerBoats[counter].name, orientation)) {
+            return false;
+        } else {
+            console.log(playerBoats[counter])
+            playerBoats[counter].placed = true;
+            console.log(playerGameboard.getBoard());
+            return true;
+        }
     }
     
     //Hard-coded locations for now
-    playerGameboard.placeShip(1, boats[1].length, boats[1].name, true);
-    playerGameboard.placeShip(10, boats[2].length, boats[2].name, false);
-    playerGameboard.placeShip(71, boats[3].length, boats[3].name, false);
-    playerGameboard.placeShip(54, boats[4].length, boats[4].name, true);
-    playerGameboard.placeShip(89, boats[5].length, boats[5].name, false);
+    // playerGameboard.placeShip(1, boats[1].length, boats[1].name, true);
+    // playerGameboard.placeShip(10, boats[2].length, boats[2].name, false);
+    // playerGameboard.placeShip(71, boats[3].length, boats[3].name, false);
+    // playerGameboard.placeShip(54, boats[4].length, boats[4].name, true);
+    // playerGameboard.placeShip(89, boats[5].length, boats[5].name, false);
 
     //Test: All the below should be false except last one!
     // computerGameboard.placeShip(60, boats[1].length, boats[1].name, true);
@@ -77,6 +121,7 @@ const Game = () => {
     // computerGameboard.placeShip(79, boats[2].length, boats[2].name, true);
     // computerGameboard.placeShip(78, boats[2].length, boats[2].name, true);
     console.log(computerGameboard.getBoard())
+    console.log(playerGameboard.getBoard())
 
     const playRound = (location) => {
         if (!computerGameboard.receiveAttack(location)) {
@@ -97,6 +142,8 @@ const Game = () => {
     return {
         playerGameboard,
         computerGameboard,
+        checkPlayerSetUp,
+        playerSetUp,
         playRound,
         getPlayerBoard: playerGameboard.getBoard,
         getComputerBoard: computerGameboard.getBoard,

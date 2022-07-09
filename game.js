@@ -58,7 +58,7 @@ const Game = () => {
             }
         }
     }
-    // computerSetup()
+    computerSetup()
 
     const playerSetUp = () => {
 
@@ -70,9 +70,12 @@ const Game = () => {
     playerGameboard.placeShip(71, boats[3].length, boats[3].name, false);
     playerGameboard.placeShip(54, boats[4].length, boats[4].name, true);
     playerGameboard.placeShip(89, boats[5].length, boats[5].name, false);
-    computerGameboard.placeShip(60, boats[1].length, boats[1].name, true);
-    computerGameboard.placeShip(70, boats[1].length, boats[1].name, true);
-    computerGameboard.placeShip(79, boats[2].length, boats[2].name, true);
+
+    //Test: All the below should be false except last one!
+    // computerGameboard.placeShip(60, boats[1].length, boats[1].name, true);
+    // computerGameboard.placeShip(70, boats[1].length, boats[1].name, true);
+    // computerGameboard.placeShip(79, boats[2].length, boats[2].name, true);
+    // computerGameboard.placeShip(78, boats[2].length, boats[2].name, true);
     console.log(computerGameboard.getBoard())
 
     const playRound = (location) => {

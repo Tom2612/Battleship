@@ -10,11 +10,9 @@ function checkLocation(location, length, horizontal) {
         let a = array[0].toString().split('');
         let b = array[array.length - 1].toString().split('');
         for (let i = 0; i <= length - 2; i++) {
-            //Add more conditions here!
+            //Cycle through all coordinates except last one, false if any number is divisible by ten except last one!
             if (array[i] % 10 === 0) {
                 return false;
-            } else {
-                return true;
             }
         }
         if (a[1] === 0 || a[0] === b[0]) {

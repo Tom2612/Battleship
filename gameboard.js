@@ -1,12 +1,17 @@
-const Ship = require('./ship');
-const checkLocation = require('./helper');
-const checkOccupied = require('./checkvalid');
-let board = [];
-let previousHits = [];
+// const Ship = require('./ship');
+// const checkLocation = require('./helper');
+// const checkOccupied = require('./checkvalid');
+
+import Ship from './ship.js';
+import checkLocation from './helper.js';
+import checkOccupied from './checkvalid.js';
+
 
 const gameboard = () => {
     let board = [];
     let previousHits = [];
+    let misses = [];
+    let hits = [];
 
     const makeBoard = (length) => {
         for (let i = 1; i < length; i++) {
@@ -28,13 +33,21 @@ const gameboard = () => {
             for (let i = location - 1; i < location + length - 1; i++) {
                 board.splice(i, 1, ship);
             }
-            return board;
+            let locations = [];
+            for (let i = location; i < location + length; i++) {
+                locations.push(i);
+            }
+            return locations;
         } else if (!direction) {
             //Vertical
             for (let i = location - 1; i < (location + (length * 10) - 1); i+=10) {
                 board.splice(i, 1, ship);
             }
-            return board;
+            let locations = [];
+            for (let i = location; i < location + (length * 10); i+=10) {
+                locations.push(i);
+            }
+            return locations;
         } else return false;
     }
 
@@ -42,11 +55,13 @@ const gameboard = () => {
         if (previousHits.includes(location)) {
             return false;
         } else if (typeof board[location - 1] !== 'number' && !previousHits.includes(location)) {
-            board[location - 1].hit(location)
+            board[location - 1].hit(location);
             previousHits.push(location);
+            hits.push(location);
             return true;
         } else {
             previousHits.push(location);
+            misses.push(location);
             return true;
         }
     }
@@ -66,7 +81,11 @@ const gameboard = () => {
         } else return true;
     }
 
-    return { makeBoard, placeShip, receiveAttack, getHits, checkAllSunk}
+    const getBoard = () => board;
+
+    return { makeBoard, placeShip, receiveAttack, getHits, checkAllSunk, getBoard, hits, misses}
 }
 
-module.exports = gameboard;
+// module.exports = gameboard
+
+export default gameboard

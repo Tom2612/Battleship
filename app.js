@@ -6,7 +6,16 @@ const screenController = () => {
     const computerGrid = document.querySelector('.computer');
     const orientationBtn = document.querySelector('#orientation');
     const setMessage = document.querySelector('#set-message');
+    const shipInfo = document.querySelector('.ship-info');
     let orientation = true;
+    let counter = 1;
+    let inPlay = false;
+
+    const shipInfoMessage = () => {
+        let { infoName, infoLength } = game.getCurrentBoatInfo(counter);
+        shipInfo.textContent = `Current ship: ${infoName}
+        Ship length: ${infoLength}`;
+    }
 
     const orientationBtnHandler = () => {
         if (orientationBtn.textContent === 'Go vertical') {
@@ -19,21 +28,32 @@ const screenController = () => {
         return orientation;
     }
 
-    let counter = 1;
     const playerLocationSet = (e) => {
-        if (game.playerSetUp(e.target.id, orientation, counter)) {
-            counter += 1;
-            setMessage.textContent = 'Good';
+        if (counter == 5 && game.playerSetUp(e.target.id, orientation, counter)) {
+            setMessage.textContent = 'Set, ready to play';
             updateScreen();
+            startGame();
+        } else if (counter < 5 && game.playerSetUp(e.target.id, orientation, counter)) {
+            counter += 1;
+            setMessage.textContent = 'Ship set, place the next one';
+            updateScreen();
+            playerGridHover();
+            shipInfoMessage();
         } else {
-            setMessage.textContent = 'Bad';
+            setMessage.textContent = 'Ship can\'t go there, try again';
+            playerGridHover();
         }
     }
 
-    playerGrid.addEventListener('click', playerLocationSet);
-    if (counter == 6) {
+    const startGame = () => {
+        inPlay = true;
         playerGrid.removeEventListener('click', playerLocationSet);
-        setMessage.textContent = 'All set, play Battleships!';
+        computerGrid.addEventListener('click', clickHandler);
+        overlayControl(false);
+        shipInfo.textContent = 'Good luck!';
+        orientationBtn.removeEventListener('click', orientationBtnHandler);
+        orientationBtn.textContent = 'Restart';
+        orientationBtn.addEventListener('click', restart);
     }
 
     const updateScreen = () => {
@@ -88,6 +108,15 @@ const screenController = () => {
         }
     }
 
+    const overlayControl = (condition) => {
+        const overlay = document.querySelector('.overlay');
+        if (condition == true){
+            overlay.style.visibility = 'visible';
+        } else {
+            overlay.remove();
+        }
+    }
+
     const clickHandler = (e) => {
         game.playRound(e.target.id);
         updateScreen();
@@ -100,12 +129,33 @@ const screenController = () => {
 
     const endgame = (winner) => {
         computerGrid.removeEventListener('click', clickHandler);
-        alert(`${winner} has won the game!`);
+        setMessage.textContent = `${winner} has won the game!`;
+        shipInfo.textContent = '';
+    }
+
+    const playerGridHover = () => {
+        const playerSquares2 = document.querySelectorAll('.player-square');
+        playerSquares2.forEach(square => {
+            square.addEventListener('mouseover', (e) => {
+                e.target.style.backgroundColor = 'blue';
+            })
+            square.addEventListener('mouseout', (e) => {
+                e.target.style.backgroundColor = '';
+            })
+        })
+    }
+
+    const restart = () => {
+        window.location.reload();
     }
 
     orientationBtn.addEventListener('click', orientationBtnHandler);
-    computerGrid.addEventListener('click', clickHandler);
+    playerGrid.addEventListener('click', playerLocationSet);
+
     updateScreen();
+    overlayControl(true);
+    playerGridHover();
+    shipInfoMessage();
 }
 
 screenController();

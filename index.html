@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Audiowide&family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
     <title>Battleships</title>
 </head>
 <body>
@@ -16,11 +19,13 @@
             <div class="player grid"></div>
         </div>
         <div class="computer-container">
+            <div class="overlay"></div>
             <div class="computer grid"></div>
         </div>
         <div class="setup">
+            <h2 id="set-message">Start placing your ships</h2>
+            <div class="ship-info"></div>
             <button id="orientation">Go vertical</button>
-            <button>Start Game!</button>
         </div>
     </main>
     <script src="app.js" type="module"></script>

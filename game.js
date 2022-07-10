@@ -87,41 +87,22 @@ const Game = () => {
             }
         }
     }
-    computerSetup()
+    computerSetup();
 
-    const checkPlayerSetUp = () => {
-        for (let boat in playerBoats) {
-            while (boat.placed === false) {
-                return false;
-            }
-        }
+    const getCurrentBoatInfo = (counter) => {
+        let infoName = boats[counter].name;
+        let infoLength = boats[counter].length;
+        return {infoName, infoLength}
     }
 
     const playerSetUp = (location, orientation, counter) => {
         if(!playerGameboard.placeShip(parseInt(location), playerBoats[counter].length, playerBoats[counter].name, orientation)) {
             return false;
         } else {
-            console.log(playerBoats[counter])
             playerBoats[counter].placed = true;
-            console.log(playerGameboard.getBoard());
             return true;
         }
     }
-    
-    //Hard-coded locations for now
-    // playerGameboard.placeShip(1, boats[1].length, boats[1].name, true);
-    // playerGameboard.placeShip(10, boats[2].length, boats[2].name, false);
-    // playerGameboard.placeShip(71, boats[3].length, boats[3].name, false);
-    // playerGameboard.placeShip(54, boats[4].length, boats[4].name, true);
-    // playerGameboard.placeShip(89, boats[5].length, boats[5].name, false);
-
-    //Test: All the below should be false except last one!
-    // computerGameboard.placeShip(60, boats[1].length, boats[1].name, true);
-    // computerGameboard.placeShip(70, boats[1].length, boats[1].name, true);
-    // computerGameboard.placeShip(79, boats[2].length, boats[2].name, true);
-    // computerGameboard.placeShip(78, boats[2].length, boats[2].name, true);
-    console.log(computerGameboard.getBoard())
-    console.log(playerGameboard.getBoard())
 
     const playRound = (location) => {
         if (!computerGameboard.receiveAttack(location)) {
@@ -142,7 +123,7 @@ const Game = () => {
     return {
         playerGameboard,
         computerGameboard,
-        checkPlayerSetUp,
+        getCurrentBoatInfo,
         playerSetUp,
         playRound,
         getPlayerBoard: playerGameboard.getBoard,

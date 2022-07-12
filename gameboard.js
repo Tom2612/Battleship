@@ -9,7 +9,6 @@ import checkOccupied from './checkvalid.js';
 
 const gameboard = () => {
     let board = [];
-    let previousHits = [];
     let misses = [];
     let hits = [];
 
@@ -52,22 +51,16 @@ const gameboard = () => {
     }
 
     const receiveAttack = (location) => {
-        if (previousHits.includes(location)) {
+        if (getHits('all').includes(location)) {
             return false;
-        } else if (typeof board[location - 1] !== 'number' && !previousHits.includes(location)) {
+        } else if (typeof board[location - 1] !== 'number' && !getHits('all').includes(location)) {
             board[location - 1].hit(location);
-            previousHits.push(location);
             hits.push(location);
             return true;
         } else {
-            previousHits.push(location);
             misses.push(location);
             return true;
         }
-    }
-
-    const getHits = () => {
-        return previousHits;
     }
 
     const checkAllSunk = () => {
@@ -81,9 +74,19 @@ const gameboard = () => {
         } else return true;
     }
 
+    const getHits = (type) => {
+        if (type == 'hits') {
+            return hits;
+        } else if (type == 'misses') {
+            return misses;
+        } else if (type == 'all') {
+            return hits.concat(misses);
+        }
+    }
+
     const getBoard = () => board;
 
-    return { makeBoard, placeShip, receiveAttack, getHits, checkAllSunk, getBoard, hits, misses}
+    return { makeBoard, placeShip, receiveAttack, getHits, checkAllSunk, getBoard }
 }
 
 // module.exports = gameboard

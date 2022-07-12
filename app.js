@@ -77,15 +77,15 @@ const screenController = () => {
         createSquares(playerGrid);
         createSquares(computerGrid);
 
-        const playerBoard = game.getPlayerBoard();
+        const playerBoard = game.getPlayerBoard().getBoard();
         const playerSquares = document.querySelectorAll('.player-square');
         const computerSquares = document.querySelectorAll('.computer-square');
 
         //Player grid styling
-        const playerMisses = game.playerGameboard.misses;
-        const playerHits = game.playerGameboard.hits;
-        const computerMisses = game.computerGameboard.misses;
-        const computerHits = game.computerGameboard.hits;
+        const playerMisses = game.getPlayerBoard().getHits('misses');
+        const playerHits = game.getPlayerBoard().getHits('hits');
+        const computerMisses = game.getComputerBoard().getHits('misses');
+        const computerHits = game.getComputerBoard().getHits('hits');
 
         for (let i = 0; i < playerBoard.length; i++) {
             if (typeof playerBoard[i] === 'object') {

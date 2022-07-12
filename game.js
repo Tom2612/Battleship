@@ -2,40 +2,10 @@
 // const Gameboard = require('./gameboard');
 // const Player = require('./player');
 
-import Ship from './ship.js';
 import Gameboard from './gameboard.js';
-import Player from './player.js'
+import Player from './player.js';
 
-//Temporarily make a copy of boats object for computer/player version?
 const boats = {
-    1: {
-        name: 'Carrier', 
-        length: 5,
-        placed: false
-    },
-    2: {
-        name: 'Battleship', 
-        length: 4,
-        placed: false
-    },
-    3: {
-        name: 'Destroyer', 
-        length: 3,
-        placed: false
-    },
-    4: {
-        name: 'Submarine', 
-        length: 3,
-        placed: false
-    },
-    5: {
-        name: 'Patrol Boat', 
-        length: 2,
-        placed: false
-    }
-}
-
-const playerBoats = {
     1: {
         name: 'Carrier', 
         length: 5,
@@ -73,6 +43,9 @@ const Game = () => {
     playerGameboard.makeBoard(101);
     computerGameboard.makeBoard(101);
 
+    const getPlayerBoard = () => playerGameboard;
+    const getComputerBoard = () => computerGameboard;
+
     const computerSetup = () => {
         for (let boat in boats) {
             let randomOrientation = (Math.floor(Math.random() * 2));
@@ -96,10 +69,9 @@ const Game = () => {
     }
 
     const playerSetUp = (location, orientation, counter) => {
-        if(!playerGameboard.placeShip(parseInt(location), playerBoats[counter].length, playerBoats[counter].name, orientation)) {
+        if(!playerGameboard.placeShip(parseInt(location), boats[counter].length, boats[counter].name, orientation)) {
             return false;
         } else {
-            playerBoats[counter].placed = true;
             return true;
         }
     }
@@ -121,13 +93,11 @@ const Game = () => {
     }
 
     return {
-        playerGameboard,
-        computerGameboard,
         getCurrentBoatInfo,
         playerSetUp,
         playRound,
-        getPlayerBoard: playerGameboard.getBoard,
-        getComputerBoard: computerGameboard.getBoard,
+        getPlayerBoard,
+        getComputerBoard,
         checkGameOver
     }
 }

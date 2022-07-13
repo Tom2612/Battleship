@@ -31,4 +31,5 @@ const Ship = (name, length) => {
 // patrolBoat.hit('A2');
 
 
-module.exports = Ship;
+// module.exports = Ship;
+export default Ship;

@@ -2,8 +2,8 @@
 // const Gameboard = require('./gameboard');
 // const Player = require('./player');
 
-import Gameboard from './gameboard.js';
-import Player from './player.js';
+import Gameboard from './factories/gameboard.js';
+import Player from './factories/player.js';
 
 const boats = {
     1: {

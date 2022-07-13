@@ -3,8 +3,8 @@
 // const checkOccupied = require('./checkvalid');
 
 import Ship from './ship.js';
-import checkLocation from './helper.js';
-import checkOccupied from './checkvalid.js';
+import checkLocation from '../utils/helper.js';
+import checkOccupied from '../utils/checkvalid.js';
 
 
 const gameboard = () => {

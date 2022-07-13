@@ -1,15 +1,20 @@
-const gameboard = require('./gameboard');
-
 const Player = (name) => {
-    const playerBoard = gameboard().makeBoard(101);
+    let possibleLocations = [];
+    for(let i = 1; i < 101; i++) {
+    possibleLocations.push(i);
+    }
+    
     const getName = () => name;
-    const getBoard = () => {
-        return playerBoard;
+
+    const randomLocation = () => {
+        let randomNumber = Math.floor(Math.random() * possibleLocations.length);
+        let hitLocation = possibleLocations.splice(randomNumber, 1);
+        return hitLocation;
     }
-    const attack = (location, gameboard) => {
-        gameboard.receiveAttack(location);
-    }
-    return { getName, getBoard, attack}
+
+    return { getName, randomLocation }
 }
 
-module.exports = Player;
+// module.exports = Player;
+
+export default Player;

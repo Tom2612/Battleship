@@ -8,7 +8,8 @@ body {
     font-family: 'Open Sans';
 }
 header {
-    margin-left: 15%;
+    text-align: center;
+    margin-bottom: 3rem;
 }
 h1 {
     font-size: 3rem;
@@ -16,6 +17,7 @@ h1 {
 }
 main {
     display: flex;
+    justify-content: center;
 }
 .grid {
     padding: 2px;
@@ -26,7 +28,7 @@ main {
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
     grid-gap: 2px;
-    background-color:  aqua;
+    background-color: #D6DFE8;
 }
 .player-container {
     margin: 0 10px;
@@ -35,21 +37,26 @@ main {
     position: relative;
 }
 .setup {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     margin-left: 10px;
     text-align: center;
     white-space: pre-line;
 }
 .square {
     width:100%;
-    border: 1px solid blue;
+    border: 1px solid #10100F;
     border-radius: 5px;
-    background-color: rgb(224, 240, 255);
+    background-color: #88C2CE;
 }
 .computer .square:hover{
     background-color: blue;
 }
 .player-ship {
-    background-color: green;
+    background-color: #626461;
 }
 .overlay {
     width: 100%;

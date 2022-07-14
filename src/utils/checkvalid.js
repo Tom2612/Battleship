@@ -22,4 +22,5 @@ function checkOccupied(location, length, direction, board) {
     } return map.length === array.length ? true : false;
 };
 
-module.exports = checkOccupied;
+export default checkOccupied
+//module.exports = checkOccupied;
